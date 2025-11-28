@@ -1,0 +1,180 @@
+:root {
+  --bg-app: #fdfdf8;
+  --bg-sidebar: #f2f2ece8;
+  --text-main: #2c2c2c;
+  --text-muted: #8a8a8a;
+  --accent: #d4a373;
+  --border: #e0e0e0;
+}
+[data-theme="dark"] {
+  --bg-app: #1e1e1e;
+  --bg-sidebar: #252526;
+  --text-main: #f9f9f9;
+  --text-muted: #a0a0a0;
+  --border: #3e3e3e;
+}
+* { box-sizing: border-box; }
+
+/* 1. CLAVAR LA APP A LA PANTALLA */
+html, body { 
+    margin: 0; padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    color: var(--text-main); background-color: var(--bg-app); 
+    
+    /* Usamos 100dvh (Dynamic Viewport Height) para detectar el teclado */
+    height: 100dvh; 
+    width: 100vw; 
+    overflow: hidden; /* Prohibido mover la página entera */
+    position: fixed; /* Anclado */
+}
+
+.app-layout { 
+    width: 100%; height: 100%; display: flex; 
+}
+
+/* ... (Estilos de Sidebar y PC iguales que antes) ... */
+.sidebar { width: 280px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.editor-container { flex: 1; padding: 40px 60px; background-color: var(--bg-app); display: flex; flex-direction: column; overflow: hidden; }
+.app-brand { margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; flex-shrink: 0; }
+.mobile-only { display: none; }
+.mobile-back-btn { display: none; }
+.search-bar { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; background: rgba(255,255,255,0.6); outline: none; }
+[data-theme="dark"] .search-bar { background: #3c3c3c; border-color: #555; color: white; }
+.sidebar h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; letter-spacing: 1px; }
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar li { padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 1rem; color: var(--text-main); margin-bottom: 2px; }
+.sidebar li:hover { background-color: rgba(0,0,0,0.05); }
+.sidebar li.active { background-color: rgba(0,0,0,0.05); font-weight: 600; border-left: 3px solid var(--accent); }
+[data-theme="dark"] .sidebar li { color: #e0e0e0; }
+[data-theme="dark"] .sidebar li.active { background-color: #37373d; color: #fff; }
+.new-note-btn { width: 100%; padding: 12px; background-color: var(--text-main); color: var(--bg-app); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+.theme-toggle { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 8px; cursor: pointer; text-align: left; }
+.note-title { width: 100%; border: none; background: transparent; font-size: 2.5rem; font-weight: 700; color: var(--text-main); outline: none; margin-bottom: 5px; flex-shrink: 0; }
+
+/* EDITOR SCROLLABLE */
+.editor { 
+    width: 100%; flex-grow: 1; font-size: 1.1rem; line-height: 1.6; outline: none; color: var(--text-main);
+    overflow-y: auto; padding-bottom: 200px; 
+}
+[data-theme="dark"] .editor { color: #e0e0e0 !important; } 
+[data-theme="dark"] .note-title { color: #fff !important; }
+
+/* TOOLBAR */
+.toolbar-wrapper { flex-shrink: 0; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 15px; padding: 8px; background-color: rgba(0,0,0,0.03); border-radius: 8px; align-items: center; }
+[data-theme="dark"] .toolbar { background-color: rgba(255,255,255,0.05); }
+.toolbar button { background: transparent; border: none; cursor: pointer; height: 34px; width: 34px; border-radius: 6px; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+.toolbar button:hover, .toolbar button.active { background-color: var(--text-main); color: var(--bg-app); }
+.color-btn { border-radius: 50% !important; border: 1px solid #ddd !important; padding: 0 !important; }
+.remove-btn { font-size: 1.2rem !important; }
+.separator { color: var(--border); margin: 0 5px; }
+#status-bar { padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 15px; flex-shrink: 0; }
+.font-system .editor { font-family: -apple-system, sans-serif !important; }
+.font-serif .editor { font-family: "Georgia", serif !important; line-height: 1.8 !important; }
+.font-mono .editor { font-family: "Consolas", monospace !important; }
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+.modal-content { background-color: var(--bg-app); color: var(--text-main); padding: 25px; border-radius: 12px; width: 320px; border: 1px solid var(--border); position: relative; }
+.close-btn { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 24px; cursor: pointer; }
+select, input[type="range"] { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-main); }
+
+/* --- MÓVIL --- */
+@media (max-width: 768px) {
+    .app-layout .sidebar {
+        width: 100%; height: 100%; display: flex;
+        padding-top: calc(40px + env(safe-area-inset-top)); 
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+        padding-left: 20px; padding-right: 20px;
+    }
+    .app-layout .editor-container { display: none; }
+    
+    .app-layout.view-editor .sidebar { display: none; }
+    
+    .app-layout.view-editor .editor-container {
+        display: flex; width: 100%; height: 100%; 
+        padding-top: calc(40px + env(safe-area-inset-top));
+        padding-bottom: 0; padding-left: 15px; padding-right: 15px;
+    }
+
+    .mobile-back-btn {
+        display: block; background: transparent; border: none;
+        color: var(--accent); font-weight: bold; font-size: 1.1rem;
+        text-align: left; padding: 10px 0; cursor: pointer; margin-bottom: 5px; flex-shrink: 0;
+    }
+    
+    .note-title { font-size: 1.8rem; }
+    .toolbar { gap: 6px; justify-content: flex-start; }
+    .mobile-only { display: block; font-size: 1rem; text-align: center; margin-bottom: 10px; opacity: 0.8; flex-shrink: 0; }
+}
+
+/* =========================================
+   ESTILOS PARA IMÁGENES (Redimensionables)
+   ========================================= */
+.editor img {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent; /* Para saber que es clickable */
+}
+.editor img:hover {
+    border-color: var(--accent);
+}
+/* Tamaños controlados por JS al hacer clic */
+.img-small { max-width: 25% !important; }
+.img-medium { max-width: 50% !important; }
+.img-full { max-width: 100% !important; }
+
+
+/* =========================================
+   ARREGLO DE IMPRESIÓN (PRINT FIX)
+   ========================================= */
+@media print {
+  /* 1. Desbloqueamos el cuerpo para que fluya en el papel */
+  html, body {
+    position: static !important;
+    overflow: visible !important;
+    height: auto !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* 2. Desactivamos el layout flexible */
+  .app-layout {
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+  }
+
+  /* 3. Ocultamos TODO lo que no sea la nota */
+  .sidebar, 
+  .toolbar-wrapper, 
+  .mobile-back-btn, 
+  #status-bar, 
+  .app-brand,
+  .new-note-btn,
+  .timestamp,
+  .modal {
+    display: none !important;
+  }
+
+  /* 4. Ajustamos el editor para el papel */
+  .editor-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    display: block !important;
+    background: white !important;
+  }
+
+  .editor {
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+  
+  .note-title {
+      color: black !important;
+      text-align: center;
+      margin-bottom: 20px;
+  }
+}

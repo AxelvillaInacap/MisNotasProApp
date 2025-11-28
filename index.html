@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
+  
+  <title>Notas Axel</title>
+</head>
+<body>
+  
+  <div id="app-layout" class="app-layout">
+    
+    <aside class="sidebar">
+      <h1 class="app-brand">Mis Notas Pro</h1>
+      <div class="sidebar-header">
+        <input type="text" id="search-input" placeholder="🔍 Buscar..." class="search-bar">
+      </div>
+      <button id="new-note-btn" class="new-note-btn">+ Nueva Nota</button>
+      <div class="folders-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 5px;">
+          <h3>CARPETAS</h3>
+          <button id="new-folder-btn" title="Nueva Carpeta" style="background:none; border:none; cursor:pointer; font-size:1.1rem; color: var(--accent);">➕</button>
+        </div>
+        <ul id="folders-list"></ul>
+      </div>
+      <div class="folders" style="flex-grow: 1; overflow-y: auto; margin-top: 15px;">
+        <div class="folder-header-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 id="current-folder-title" style="margin:0;">MIS NOTAS</h3>
+            <div id="folder-actions" style="display: none; gap: 5px;">
+                <button id="rename-folder-btn" title="Renombrar" style="background:none; border:none; cursor:pointer;">✏️</button>
+                <button id="delete-folder-btn" title="Borrar" style="background:none; border:none; cursor:pointer;">🗑️</button>
+            </div>
+        </div>
+        <ul id="notes-list"></ul>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="settings-btn" class="theme-toggle">⚙️ Configuración</button>
+        <button id="theme-btn" class="theme-toggle">🌙 Modo Oscuro</button>
+      </div>
+    </aside>
+
+    <main class="editor-container">
+      <h1 class="app-brand mobile-only">Mis Notas Pro</h1>
+      <button id="mobile-back-btn" class="mobile-back-btn">⬅ Volver a Notas</button>
+
+      <div class="toolbar-wrapper">
+          <div class="toolbar">
+             <button id="pin-btn" onmousedown="event.preventDefault()" title="Fijar nota">📌</button>
+             <button onclick="insertImage()" onmousedown="event.preventDefault()" title="Insertar Imagen">🖼️</button>
+             <button onclick="exportPDF()" onmousedown="event.preventDefault()" title="Exportar PDF">🖨️</button>
+             <span class="separator">|</span>
+             <button onclick="format('bold')" onmousedown="event.preventDefault()"><b>B</b></button>
+             <button onclick="format('italic')" onmousedown="event.preventDefault()"><i>I</i></button>
+             <button onclick="format('underline')" onmousedown="event.preventDefault()"><u>U</u></button>
+             <span class="separator">|</span>
+             <button onclick="format('insertUnorderedList')" onmousedown="event.preventDefault()">• Lista</button>
+             <button onclick="toggleHeading('H1')" onmousedown="event.preventDefault()">H1</button>
+             <button onclick="toggleHeading('H2')" onmousedown="event.preventDefault()">H2</button>
+             <span class="separator">|</span>
+             <button onclick="toggleColor('transparent')" onmousedown="event.preventDefault()" title="Quitar Subrayado" class="remove-btn">🚫</button>
+             <button onclick="toggleColor('#ffeb3b')" onmousedown="event.preventDefault()" class="color-btn" style="background:#ffeb3b;"></button>
+             <button onclick="toggleColor('#ff8a80')" onmousedown="event.preventDefault()" class="color-btn" style="background:#ff8a80;"></button>
+             <button onclick="toggleColor('#80d8ff')" onmousedown="event.preventDefault()" class="color-btn" style="background:#80d8ff;"></button>
+          </div>
+      </div>
+
+      <input type="text" class="note-title" placeholder="Título de la nota" value="Nueva Nota">
+      <div class="timestamp">Editado recientemente</div>
+      <div class="editor" contenteditable="true"></div>
+      <div id="status-bar">
+        <span id="word-count">0 palabras</span>
+        <span id="char-count">0 caracteres</span>
+      </div>
+    </main>
+  </div>
+
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-settings" class="close-btn">&times;</span>
+      <h2>Configuración</h2>
+      <div class="setting-group">
+        <label>Tipografía</label>
+        <select id="font-select">
+          <option value="system">📱 Sistema</option>
+          <option value="serif">📖 Clásica</option>
+          <option value="mono">⌨️ Código</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <label>Tamaño</label>
+        <input type="range" id="font-size-slider" min="12" max="30" value="16">
+        <span id="font-size-value">16px</span>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
