@@ -96,6 +96,6 @@ Si quieres clonar y mejorar este proyecto:
 ## 👤 Autor
 
 Desarrollado por **Axel**.
-Estudiante de Ingeniería en Informática - INACAP.
+Estudiante de Analista Programador - INACAP.
 
 ---
